@@ -270,7 +270,7 @@ export default function Index() {
                 </span>
               </h2>
               <p className="text-white/40 text-sm mt-2 font-light">
-                Заполните форму — я свяжусь с вами в ближайшее время
+                Твой голос для нас важная часть
               </p>
             </div>
 
