@@ -21,7 +21,7 @@ const PROJECTS = [
     year: "2024",
     tags: ["Концепт", "Тёмная тема", "Sci-Fi"],
     image:
-      "https://cdn.poehali.dev/projects/5ffbfd22-a4ca-4435-857b-9de0fde16a3b/files/98f3ef50-7bac-4106-a195-5bea4644ae34.jpg",
+      "https://avatars.mds.yandex.net/i?id=31a26fcacee3e2c5324839600094bf42fe329fc9-4012918-images-thumbs&n=13",
     color: "#ff3c3c",
   },
 ];
