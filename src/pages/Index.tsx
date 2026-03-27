@@ -12,7 +12,7 @@ const PROJECTS = [
     tags: ["Брендинг", "Иллюстрация", "Типографика"],
     image:
       "https://cdn.poehali.dev/projects/5ffbfd22-a4ca-4435-857b-9de0fde16a3b/files/9fdffa05-0b94-4ea7-b5b1-955134e947d4.jpg",
-    color: "#b8ff3c",
+    color: "#ff6b00",
   },
   {
     id: 2,
@@ -56,6 +56,11 @@ const SOCIALS = [
   },
 ];
 
+// Огненный градиент — используется везде вместо зелёного
+const FIRE = "linear-gradient(90deg, #ff4500, #ff6b00, #ffaa00)";
+const FIRE_VERT = "linear-gradient(135deg, #ff4500, #ff6b00, #ffaa00)";
+const FIRE_COLOR = "#ff6b00";
+
 export default function Index() {
   const [activeTab, setActiveTab] = useState<Tab>("projects");
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
@@ -69,7 +74,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-mont overflow-x-hidden">
-      {/* Noise texture overlay */}
+      {/* Noise texture */}
       <div
         className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
         style={{
@@ -89,6 +94,12 @@ export default function Index() {
         }}
       />
 
+      {/* Fire glow ambient */}
+      <div
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none z-0 opacity-10 blur-[80px]"
+        style={{ background: FIRE_VERT }}
+      />
+
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-10">
         {/* Header */}
         <header className="mb-16 animate-fade-in">
@@ -98,11 +109,18 @@ export default function Index() {
                 MMV
                 <span
                   className="text-transparent"
-                  style={{ WebkitTextStroke: "2px #b8ff3c" }}
+                  style={{ WebkitTextStroke: "2px transparent",
+                    backgroundImage: FIRE,
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                  }}
                 >
                   OISE
                 </span>
-                <span className="text-[#b8ff3c] text-4xl md:text-5xl align-super">
+                <span
+                  className="text-4xl md:text-5xl align-super"
+                  style={{ backgroundImage: FIRE, backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}
+                >
                   ™
                 </span>
               </h1>
@@ -111,18 +129,22 @@ export default function Index() {
               </p>
             </div>
             <div className="hidden md:flex flex-col items-end gap-1 mt-2">
-              <div className="w-12 h-[1px] bg-[#b8ff3c]" />
-              <p className="text-white/30 text-xs tracking-widest uppercase">
-                Portfolio
-              </p>
+              <div className="w-12 h-[1px]" style={{ background: FIRE }} />
+              <p className="text-white/30 text-xs tracking-widest uppercase">Portfolio</p>
               <p className="text-white/30 text-xs">© 2024</p>
             </div>
           </div>
 
           {/* Accent line */}
           <div className="mt-8 flex items-center gap-4">
-            <div className="h-[2px] flex-1 bg-gradient-to-r from-[#b8ff3c] via-[#b8ff3c]/30 to-transparent" />
-            <span className="text-[#b8ff3c] text-xs tracking-widest uppercase font-light">
+            <div
+              className="h-[2px] flex-1"
+              style={{ background: "linear-gradient(90deg, #ff4500, #ff6b00 40%, transparent)" }}
+            />
+            <span
+              className="text-xs tracking-widest uppercase font-light"
+              style={{ backgroundImage: FIRE, backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}
+            >
               Select
             </span>
           </div>
@@ -142,9 +164,14 @@ export default function Index() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium tracking-wide transition-all duration-300 ${
                 activeTab === tab.id
-                  ? "bg-[#b8ff3c] text-black"
+                  ? "text-white"
                   : "text-white/50 hover:text-white hover:bg-white/5"
               }`}
+              style={
+                activeTab === tab.id
+                  ? { background: FIRE_VERT }
+                  : {}
+              }
             >
               <Icon name={tab.icon} size={15} />
               {tab.label}
@@ -164,13 +191,12 @@ export default function Index() {
                     animationDelay: `${i * 0.15}s`,
                     boxShadow:
                       hoveredProject === project.id
-                        ? `0 0 40px ${project.color}22`
+                        ? `0 0 40px #ff6b0030`
                         : "none",
                   }}
                   onMouseEnter={() => setHoveredProject(project.id)}
                   onMouseLeave={() => setHoveredProject(null)}
                 >
-                  {/* Image */}
                   <div className="relative h-72 overflow-hidden">
                     <img
                       src={project.image}
@@ -178,14 +204,11 @@ export default function Index() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-
-                    {/* Year badge */}
                     <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 text-xs text-white/70 font-light">
                       {project.year}
                     </div>
                   </div>
 
-                  {/* Info */}
                   <div className="p-6 bg-[#111]">
                     <div className="flex items-start justify-between mb-3">
                       <div>
@@ -198,7 +221,7 @@ export default function Index() {
                       </div>
                       <div
                         className="w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:rotate-45"
-                        style={{ background: `${project.color}22`, color: project.color }}
+                        style={{ background: "rgba(255,107,0,0.15)", color: FIRE_COLOR }}
                       >
                         <Icon name="ArrowUpRight" size={16} />
                       </div>
@@ -210,9 +233,9 @@ export default function Index() {
                           key={tag}
                           className="text-xs px-3 py-1 rounded-full border font-light tracking-wide"
                           style={{
-                            borderColor: `${project.color}40`,
-                            color: project.color,
-                            background: `${project.color}10`,
+                            borderColor: "rgba(255,107,0,0.3)",
+                            color: FIRE_COLOR,
+                            background: "rgba(255,107,0,0.08)",
                           }}
                         >
                           {tag}
@@ -224,7 +247,6 @@ export default function Index() {
               ))}
             </div>
 
-            {/* Bottom counter */}
             <div className="mt-10 flex items-center gap-4 text-white/20">
               <div className="h-[1px] flex-1 bg-white/10" />
               <span className="text-xs tracking-widest uppercase font-light">
@@ -242,8 +264,7 @@ export default function Index() {
               <h2 className="font-bebas text-5xl tracking-wider text-white">
                 Оставить{" "}
                 <span
-                  className="text-transparent"
-                  style={{ WebkitTextStroke: "1.5px #b8ff3c" }}
+                  style={{ backgroundImage: FIRE, backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}
                 >
                   заявку
                 </span>
@@ -255,46 +276,41 @@ export default function Index() {
 
             <div className="space-y-4">
               <div>
-                <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">
-                  Имя
-                </label>
+                <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">Имя</label>
                 <input
                   type="text"
                   placeholder="Ваше имя"
                   value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none focus:border-[#b8ff3c]/50 transition-all duration-300"
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none transition-all duration-300"
+                  style={{ focusBorderColor: FIRE_COLOR } as React.CSSProperties}
+                  onFocus={e => e.target.style.borderColor = "#ff6b00"}
+                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">
-                    Возраст
-                  </label>
+                  <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">Возраст</label>
                   <input
                     type="number"
                     placeholder="Ваш возраст"
                     value={formData.age}
-                    onChange={(e) =>
-                      setFormData({ ...formData, age: e.target.value })
-                    }
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none focus:border-[#b8ff3c]/50 transition-all duration-300"
+                    onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none transition-all duration-300"
+                    onFocus={e => e.target.style.borderColor = "#ff6b00"}
+                    onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
                   />
                 </div>
                 <div>
-                  <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">
-                    Пол
-                  </label>
+                  <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">Пол</label>
                   <select
                     value={formData.gender}
-                    onChange={(e) =>
-                      setFormData({ ...formData, gender: e.target.value })
-                    }
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-[#b8ff3c]/50 transition-all duration-300 appearance-none cursor-pointer"
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none transition-all duration-300 appearance-none cursor-pointer"
                     style={{ colorScheme: "dark" }}
+                    onFocus={e => e.target.style.borderColor = "#ff6b00"}
+                    onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
                   >
                     <option value="" className="bg-[#111]">Выберите</option>
                     <option value="male" className="bg-[#111]">Мужской</option>
@@ -305,36 +321,35 @@ export default function Index() {
               </div>
 
               <div>
-                <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">
-                  Номер телефона
-                </label>
+                <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">Номер телефона</label>
                 <input
                   type="tel"
                   placeholder="+7 (___) ___-__-__"
                   value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none focus:border-[#b8ff3c]/50 transition-all duration-300"
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none transition-all duration-300"
+                  onFocus={e => e.target.style.borderColor = "#ff6b00"}
+                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
                 />
               </div>
 
               <div>
-                <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">
-                  Электронная почта
-                </label>
+                <label className="text-xs tracking-widest uppercase text-white/30 mb-2 block font-light">Электронная почта</label>
                 <input
                   type="email"
                   placeholder="you@example.com"
                   value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none focus:border-[#b8ff3c]/50 transition-all duration-300"
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/20 text-sm focus:outline-none transition-all duration-300"
+                  onFocus={e => e.target.style.borderColor = "#ff6b00"}
+                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
                 />
               </div>
 
-              <button className="w-full mt-2 bg-[#b8ff3c] text-black font-semibold tracking-widest uppercase text-sm py-4 rounded-xl transition-all duration-300 hover:bg-[#d4ff6e] hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
+              <button
+                className="w-full mt-2 text-white font-semibold tracking-widest uppercase text-sm py-4 rounded-xl transition-all duration-300 hover:opacity-90 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+                style={{ background: FIRE_VERT }}
+              >
                 <Icon name="Send" size={16} />
                 Отправить заявку
               </button>
@@ -349,8 +364,7 @@ export default function Index() {
               <h2 className="font-bebas text-5xl tracking-wider text-white">
                 Социальные{" "}
                 <span
-                  className="text-transparent"
-                  style={{ WebkitTextStroke: "1.5px #b8ff3c" }}
+                  style={{ backgroundImage: FIRE, backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}
                 >
                   сети
                 </span>
@@ -365,7 +379,7 @@ export default function Index() {
                 <a
                   key={s.name}
                   href={s.url}
-                  className="group relative block p-6 rounded-2xl border transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl overflow-hidden"
+                  className="group relative block p-6 rounded-2xl border transition-all duration-500 hover:scale-[1.03] overflow-hidden"
                   style={{
                     background: s.bg,
                     borderColor: s.border,
@@ -376,22 +390,15 @@ export default function Index() {
                     className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-30 transition-opacity duration-500"
                     style={{ background: s.color }}
                   />
-
                   <div className="relative z-10">
                     <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-2xl transition-transform duration-300 group-hover:scale-110"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110"
                       style={{ background: `${s.color}20`, color: s.color }}
                     >
                       <Icon name={s.icon} size={24} />
                     </div>
-
-                    <h3 className="font-bebas text-3xl tracking-wider text-white mb-1">
-                      {s.name}
-                    </h3>
-                    <p className="text-sm font-light" style={{ color: s.color }}>
-                      {s.handle}
-                    </p>
-
+                    <h3 className="font-bebas text-3xl tracking-wider text-white mb-1">{s.name}</h3>
+                    <p className="text-sm font-light" style={{ color: s.color }}>{s.handle}</p>
                     <div
                       className="mt-5 flex items-center gap-2 text-xs font-medium tracking-wide opacity-60 group-hover:opacity-100 transition-opacity"
                       style={{ color: s.color }}
@@ -404,18 +411,18 @@ export default function Index() {
               ))}
             </div>
 
-            <div className="mt-8 p-6 rounded-2xl border border-[#b8ff3c]/20 bg-[#b8ff3c]/5 flex items-center justify-between">
+            <div
+              className="mt-8 p-6 rounded-2xl border flex items-center justify-between"
+              style={{ borderColor: "rgba(255,107,0,0.25)", background: "rgba(255,107,0,0.07)" }}
+            >
               <div>
-                <p className="text-white font-medium text-sm">
-                  Хочешь сотрудничество?
-                </p>
-                <p className="text-white/40 text-xs mt-1 font-light">
-                  Оставь заявку и обсудим проект
-                </p>
+                <p className="text-white font-medium text-sm">Хочешь сотрудничество?</p>
+                <p className="text-white/40 text-xs mt-1 font-light">Оставь заявку и обсудим проект</p>
               </div>
               <button
                 onClick={() => setActiveTab("request")}
-                className="bg-[#b8ff3c] text-black text-xs font-semibold px-5 py-2.5 rounded-xl tracking-wide hover:bg-[#d4ff6e] transition-colors whitespace-nowrap"
+                className="text-white text-xs font-semibold px-5 py-2.5 rounded-xl tracking-wide hover:opacity-90 transition-opacity whitespace-nowrap"
+                style={{ background: FIRE_VERT }}
               >
                 Оставить заявку
               </button>
@@ -425,7 +432,12 @@ export default function Index() {
 
         {/* Footer */}
         <footer className="mt-20 pt-8 border-t border-white/5 flex items-center justify-between text-white/20 text-xs font-light">
-          <span className="font-bebas tracking-widest text-base">MMVOISE™</span>
+          <span
+            className="font-bebas tracking-widest text-base"
+            style={{ backgroundImage: FIRE, backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}
+          >
+            MMVOISE™
+          </span>
           <span>Все права защищены © 2024</span>
         </footer>
       </div>
