@@ -94,7 +94,7 @@ export default function Index() {
         </header>
 
         {/* Tabs */}
-        <nav className="mb-12 flex gap-1 bg-white/5 p-1 rounded-xl w-fit">
+        <nav className="mb-12 flex flex-wrap gap-1 bg-white/5 p-1 rounded-xl w-fit max-w-full">
           {(
             [
               { id: "projects", label: "Проекты", icon: "Layout" },
