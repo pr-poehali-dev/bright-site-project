@@ -106,16 +106,11 @@ export default function Index() {
           <div className="flex items-start justify-between">
             <div>
               <h1 className="font-bebas text-7xl md:text-9xl leading-none tracking-widest text-white">
-                MMV
+                MM
                 <span
-                  className="text-transparent"
-                  style={{ WebkitTextStroke: "2px transparent",
-                    backgroundImage: FIRE,
-                    backgroundClip: "text",
-                    WebkitBackgroundClip: "text",
-                  }}
+                  style={{ backgroundImage: FIRE, backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}
                 >
-                  OISE
+                  VOISE
                 </span>
                 <span
                   className="text-4xl md:text-5xl align-super"
@@ -124,7 +119,8 @@ export default function Index() {
                   ™
                 </span>
               </h1>
-              <p className="font-mont text-sm tracking-[0.3em] text-white/40 uppercase mt-2">
+              <p className="font-mont text-sm tracking-[0.3em] uppercase mt-2"
+                style={{ backgroundImage: FIRE, backgroundClip: "text", WebkitBackgroundClip: "text", color: "transparent" }}>
                 Графический & Визуальный Дизайн
               </p>
             </div>
