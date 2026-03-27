@@ -11,7 +11,7 @@ const PROJECTS = [
     year: "2024",
     tags: ["Брендинг", "Иллюстрация", "Типографика"],
     image:
-      "https://cdn.poehali.dev/projects/5ffbfd22-a4ca-4435-857b-9de0fde16a3b/files/9fdffa05-0b94-4ea7-b5b1-955134e947d4.jpg",
+      "https://avatars.mds.yandex.net/get-entity_search/1974363/807790801/SUx150_2x",
     color: "#ff6b00",
   },
   {
